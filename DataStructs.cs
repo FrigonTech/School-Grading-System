@@ -11,13 +11,13 @@ namespace SchoolGradingSystem
     public struct School_StudentInfo
     {
         public string studentName;
-        public int studentClass;
+        public string studentClass;
         public int studentRollno;
         public int studentAdmissionno;
         public string studentAddress;
-        public string studentJoining;
-        public string studentDOB;
-        public ImageSource studentPic;
+        public DateTimeOffset? studentJoiningfrom;
+        public DateTimeOffset? studentDOB;
+        public string studentPic;
     }
 
     public class SchoolInfo
@@ -49,12 +49,12 @@ namespace SchoolGradingSystem
                 }
                 else
                 {
-                    return ($"{Students.Length}/{TotalSeats}");
+                    return ($"{Students.Count}/{TotalSeats}");
                 }
                 
             }
         }
-        public School_StudentInfo[] Students { get; set; }
+        public List<School_StudentInfo> Students { get; set; }
     }
 
 }

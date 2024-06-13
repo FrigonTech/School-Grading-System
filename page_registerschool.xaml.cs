@@ -48,7 +48,7 @@ namespace SchoolGradingSystem
             {
                 bitmapImage = new BitmapImage();
                 bitmapImage.BeginInit();
-                bitmapImage.UriSource = new Uri("pack://application:,,,/WpfApp2;SchoolGradingSystem/Assets/Images/DemoSchoolLogo.png", UriKind.RelativeOrAbsolute);
+                bitmapImage.UriSource = new Uri("pack://application:,,,/SchoolGradingSystem;component/Assets/Images/DemoSchoolLogo.png", UriKind.RelativeOrAbsolute);
                 bitmapImage.EndInit();
                 this.schllogo.Source = bitmapImage;
             }
