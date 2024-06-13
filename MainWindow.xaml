@@ -1,0 +1,88 @@
+﻿<Window x:Class="SchoolGradingSystem.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SchoolGradingSystem"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        Height="720" Width="1280"
+        ResizeMode="NoResize"
+        AllowsTransparency="True"
+        Background="Transparent">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/SchoolGradingSystem;component/SharedResources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Border CornerRadius="9.5"
+            Background="{DynamicResource ResourceKey=WindowBrush}">
+        <Grid Margin="0,10,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="29*"/>
+                <RowDefinition Height="664*"/>
+                <RowDefinition Height="5*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="9*"/>
+                <ColumnDefinition Width="1263*"/>
+                <ColumnDefinition Width="8*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock x:Name="TabName" Grid.Column="1" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Home" VerticalAlignment="Center" Foreground="{DynamicResource ResourceKey=Foreground}" FontSize="18" FontFamily="Times New Roman" RenderTransformOrigin="0.5,0.5" Height="29" Width="479" TextAlignment="Center"/>
+
+            <TextBlock x:Name="WindowName" Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="School Grading System" VerticalAlignment="Bottom" Foreground="{DynamicResource ResourceKey=Foreground}" FontSize="20" FontFamily="Stencil" Margin="10,0,0,7" Width="349" Height="23"/>
+
+            <Button Grid.Column="1" Content="" Margin="0,0,4,0" VerticalAlignment="Center" Height="29" BorderThickness="0,0,0,1" ClickMode="Press" BorderBrush="#FFFF2424" Foreground="White"
+                    Style="{StaticResource ButtonStyle1}" local:ButtonHelper.HoverImage="/Assets/Utility/close_app_hovered.png"
+                    Click="CloseButtonClick" HorizontalAlignment="Right" Width="29">
+                <Button.Background>
+                    <ImageBrush ImageSource="/Assets/Utility/close_app.png" />
+                </Button.Background>
+            </Button>
+
+            <Button Grid.Column="1" Content="" Margin="0,0,38,0" VerticalAlignment="Center" Height="29" BorderThickness="0,0,0,1" ClickMode ="Press" BorderBrush="#FFD9D73A" Foreground="White"
+                    Style="{StaticResource ButtonStyle1}" local:ButtonHelper.HoverImage="/Assets/Utility/resize_app_hovered.png"
+                    Click="ResizeButtonClick" HorizontalAlignment="Right" Width="29">
+                <Button.Background>
+                    <ImageBrush ImageSource="/Assets/Utility/resize_app.png"/>
+                </Button.Background>
+            </Button>
+
+            <Button Grid.Column="1" Content="" Margin="0,0,72,0" BorderThickness="0,0,0,1" ClickMode="Press" BorderBrush="#FF00D98A" Foreground="White"
+                    Style="{StaticResource ButtonStyle1}" local:ButtonHelper.HoverImage="/Assets/Utility/minimize_app_hovered.png"
+                    Click="MinimizeButtonClick" Height="29" VerticalAlignment="Center" HorizontalAlignment="Right" Width="29">
+                <Button.Background>
+                    <ImageBrush ImageSource="/Assets/Utility/minimize_app.png"/>
+                </Button.Background>
+            </Button>
+            <Viewbox Margin="4,5,0,1" Stretch="UniformToFill" Grid.Row="1" Grid.ColumnSpan="3">
+                <Canvas Height="612" Width="1166">
+                    <Border Background="{DynamicResource ElementBar}" BorderThickness="1" CornerRadius="8" Height="610" Width="1108" VerticalAlignment="Center" HorizontalAlignment="Center" Canvas.Left="48">
+                        <Grid Margin="0,0,0,-0.4">
+                            <Frame x:Name="Page" Content="" NavigationUIVisibility="Hidden" Margin="0,-3,0,0"/>
+                        </Grid>
+                    </Border>
+                    <Frame x:Name="SideBar" Content="" NavigationUIVisibility="Hidden" BorderBrush="{DynamicResource ResourceKey=WindowBrush}" BorderThickness="2.5" Width="38.2" Height="613" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3,0,0,0"/>
+                    <Grid x:Name="Miscellaneous" Height="239" Canvas.Left="68" Canvas.Top="91" Width="0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <Border  BorderBrush="{DynamicResource WorkAreaBrush}" CornerRadius="8" Background="{DynamicResource WindowBrush}" BorderThickness="1">
+                            <StackPanel>
+                                <TextBlock Foreground="{DynamicResource Foreground}" TextWrapping="Wrap" Text="Miscellaneous" Height="16" Width="110" TextAlignment="Center" LineHeight="9" Margin="0,2,0,0"/>
+                                <Button x:Name="openlocalfolder" Content="Open Local Folder" Click="OpenLocalFolderr" Background="{DynamicResource WindowBrush}" Foreground="{DynamicResource Foreground}" Width="136" ScrollViewer.HorizontalScrollBarVisibility="Visible"  HorizontalContentAlignment="Center" Height="29" FontFamily="Times New Roman" FontWeight="Bold"
+                                        local:ObjectDescription.ElementString="Open local folder in explorer. This folder contains all the local data of this application. This data is used in the app like your selected theme, school info, logo, student infos, etc and not pinged to any third party database."
+                                        Style="{DynamicResource ButtonStyle2}" Margin="0,5,0,0" FontSize="16"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Canvas>
+            </Viewbox>
+
+        </Grid>
+    </Border>
+
+
+</Window>

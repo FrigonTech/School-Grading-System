@@ -1,0 +1,125 @@
+﻿<Page x:Class="SchoolGradingSystem.page_mainmenu"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:SchoolGradingSystem"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Home"
+      DataContext="{Binding RelativeSource={RelativeSource Self}}">
+
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/SchoolGradingSystem;component/SharedResources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid Margin="0,2,0,13">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="17*"/>
+            <ColumnDefinition Width="544*"/>
+            <ColumnDefinition Width="239*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="23*"/>
+            <RowDefinition Height="151*"/>
+            <RowDefinition Height="272*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Column="1" Grid.Row="2" Margin="207,10,0,22">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Border Background="{DynamicResource WorkAreaBrush}" CornerRadius="15" Grid.ColumnSpan="2"/>
+            <ScrollViewer  
+           Grid.Column="1" Foreground="{DynamicResource Foreground}" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Hidden" Background="Transparent" CanContentScroll="True" VirtualizingPanel.ScrollUnit="Pixel" Margin="0,5,0,5">
+                <StackPanel Height="245" Width="299" Orientation="Vertical">
+                    <Button Content="Manage Classes 🗳️" Click="ManageClasses_Click" Background="{DynamicResource WindowBrush}" Foreground="{DynamicResource Foreground}" Width="289" ScrollViewer.HorizontalScrollBarVisibility="Visible" MouseEnter="OnMouseHover" MouseLeave="OnMouseLeave" HorizontalContentAlignment="Center" Height="40" FontFamily="Times New Roman" FontSize="16" FontWeight="Bold"
+                        local:ObjectDescription.ElementString="Add or Edit your School information in the app for visibility on the dashboard and report card generation."
+                        Style="{DynamicResource ButtonStyle2}" Margin="0,8,0,0"/>
+
+                    <Button Content="School Registry ➕" Click="SchoolRegistration_Click" Background="{DynamicResource WindowBrush}" Foreground="{DynamicResource Foreground}" Width="289" ScrollViewer.HorizontalScrollBarVisibility="Visible" MouseEnter="OnMouseHover" MouseLeave="OnMouseLeave" HorizontalContentAlignment="Center" Height="40" FontFamily="Times New Roman" FontSize="16" FontWeight="Bold" Margin="0,8,0,0"
+                            local:ObjectDescription.ElementString="Add or Edit your School information in the app for visibility on the dashboard and report card generation."
+                            Style="{DynamicResource ButtonStyle2}"/>
+
+                    <Button Content="Register Students ➕" Click="StudentRegisterButton_Click" Background="{DynamicResource WindowBrush}" Foreground="{DynamicResource Foreground}" Width="289" ScrollViewer.HorizontalScrollBarVisibility="Visible" MouseEnter="OnMouseHover" MouseLeave="OnMouseLeave" HorizontalContentAlignment="Center" Height="40" FontFamily="Times New Roman" FontSize="16" FontWeight="Bold" Margin="0,8,0,0"
+                            local:ObjectDescription.ElementString="Go to this page for registering any new commers into a class very easily."
+                            Style="{DynamicResource ButtonStyle2}"/>
+
+                    <Button Content="Register Faculty ➕" Background="{DynamicResource WindowBrush}" Foreground="{DynamicResource Foreground}" Width="289" ScrollViewer.HorizontalScrollBarVisibility="Visible" MouseEnter="OnMouseHover" MouseLeave="OnMouseLeave" HorizontalContentAlignment="Center" Height="40" FontFamily="Times New Roman" FontSize="16" FontWeight="Bold" Margin="0,8,0,0"
+                            local:ObjectDescription.ElementString="Register any new faculty member in the school with his/her monthly salary and other required or optional information."
+                            Style="{DynamicResource ButtonStyle2}"/>
+
+                    <Button Content="Remove/Blacklist ➖" Background="{DynamicResource WindowBrush}" Foreground="{DynamicResource Foreground}" Width="289" ScrollViewer.HorizontalScrollBarVisibility="Visible" MouseEnter="OnMouseHover" MouseLeave="OnMouseLeave" HorizontalContentAlignment="Center" Height="40" FontFamily="Times New Roman" FontSize="16" FontWeight="Bold" Margin="0,8,0,0"
+                            local:ObjectDescription.ElementString="Remove or Blacklist any indisciplined student or faculty member with a time limit."
+                            Style="{DynamicResource ButtonStyle2}"/>
+
+                    <Button Content="Create Test/Exams ➕" Background="{DynamicResource WindowBrush}" Foreground="{DynamicResource Foreground}" Width="289" ScrollViewer.HorizontalScrollBarVisibility="Visible" MouseEnter="OnMouseHover" MouseLeave="OnMouseLeave" HorizontalContentAlignment="Center" Height="40" FontFamily="Times New Roman" FontSize="16" FontWeight="Bold" Margin="0,8,0,0"
+                            local:ObjectDescription.ElementString="Create a set/individual exams scheduled for a set of class (eg- PA-1, PA-2, PA-3 only for classes 1-8 and PA-1, PA-2, PA-3, PA-4 for class 9-12)."
+                            Style="{DynamicResource ButtonStyle2}"/>
+
+                    <Button Content="Manage 🗃️" Width="289" Background="{DynamicResource WindowBrush}" Foreground="{DynamicResource Foreground}" ScrollViewer.HorizontalScrollBarVisibility="Visible" HorizontalContentAlignment="Center" MouseEnter="OnMouseHover" MouseLeave="OnMouseLeave" Height="40" FontFamily="Times New Roman" FontSize="16" FontWeight="Bold" Margin="0,8,0,0"
+                            local:ObjectDescription.ElementString="Manage and see every students detailed individually sorted based on his/her class. Difficulty finding a student? No worries this page also has a search bar."
+                            Style="{DynamicResource ButtonStyle2}"/>
+
+                    <Button Content="Documentation 📒" Background="{DynamicResource WindowBrush}" Foreground="{DynamicResource Foreground}" Width="289" ScrollViewer.HorizontalScrollBarVisibility="Visible" MouseEnter="OnMouseHover" MouseLeave="OnMouseLeave" HorizontalContentAlignment="Center" Height="40" FontFamily="Times New Roman" FontSize="16" FontWeight="Bold" Margin="0,8,0,0"
+                            local:ObjectDescription.ElementString="Confused or wanna know the dynamics of this application? Check out our documentation explaining every feature's place and function."
+                            Style="{DynamicResource ButtonStyle2}"/>
+
+                    <Button Content="Generate Report Cards 📝" Background="{DynamicResource WindowBrush}" Foreground="{DynamicResource Foreground}" Width="289" ScrollViewer.HorizontalScrollBarVisibility="Visible" MouseEnter="OnMouseHover" MouseLeave="OnMouseLeave" HorizontalContentAlignment="Center" Height="40" FontFamily="Times New Roman" FontSize="16" FontWeight="Bold" Margin="0,8,0,0"
+                            local:ObjectDescription.ElementString="Generate Report card of a student or a batch of students in just one click with your school's watermark and style (requires configuration in the 'Registry' page.)"
+                            Style="{DynamicResource ButtonStyle2}"/>
+
+                    <Button Content="Unregister School🗑️" Background="{DynamicResource WindowBrush}" Foreground="{DynamicResource Foreground}" Width="289" ScrollViewer.HorizontalScrollBarVisibility="Visible" MouseEnter="OnMouseHover" MouseLeave="OnMouseLeave" HorizontalContentAlignment="Center" Height="40" FontFamily="Times New Roman" FontSize="16" FontWeight="Bold" Margin="0,8,0,0"
+                            local:ObjectDescription.ElementString="Unregister your school from our service. This remove your school's registration from our database and you'll have to set it up again to continue using it again."
+                            Style="{DynamicResource ButtonStyle2}"/>
+
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+        <Grid Grid.Column="2" Grid.Row="1" Grid.RowSpan="2" Margin="10,10,10,22">
+            <Border Background="{DynamicResource WorkAreaBrush}" CornerRadius="20"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="37*"/>
+                    <RowDefinition Height="26*"/>
+                    <RowDefinition Height="318*"/>
+                </Grid.RowDefinitions>
+                <Label x:Name="labeldt" Content="{Binding CurrentDateTime}" HorizontalAlignment="Right" Width="160" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="{DynamicResource time}" FontSize="16" FontFamily="Technology" Height="27" VerticalAlignment="Center" Margin="59,0,0,0"/>
+                <Button Content="+" Background="{DynamicResource WindowBrush}" Foreground="{DynamicResource Foreground}" ScrollViewer.HorizontalScrollBarVisibility="Visible" MouseEnter="OnMouseHover" MouseLeave="OnMouseLeave" HorizontalContentAlignment="Center" FontFamily="Times New Roman" FontSize="16" FontWeight="Bold"
+                    local:ObjectDescription.ElementString="Add or Edit your School information in the app for visibility on the dashboard and report card generation."
+                    Style="{DynamicResource ButtonStyle2}" Margin="6,6,0,5" Width="26" HorizontalAlignment="Left" Height="26"/>
+                <TextBlock x:Name="SchlName_Copy" Foreground="{DynamicResource ResourceKey=Foreground}" MouseEnter="OnMouseHover" MouseLeave="OnMouseLeave" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Height="15" Width="219" Text="Schedule" FontSize="16" FontFamily="Times New Roman"
+                    local:ObjectDescription.ElementString="This is your school's name." Grid.Row="1" TextAlignment="Center"/>
+            </Grid>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="149*"/>
+                <ColumnDefinition Width="385*"/>
+            </Grid.ColumnDefinitions>
+            <Grid MaxWidth="136" MaxHeight="136" Margin="0,1,0,0">
+                <Border Background="{DynamicResource WorkAreaBrush}" CornerRadius="100" Margin="-14,-14,-14,-14"/>
+                <Ellipse x:Name="Logo" Stroke="Black" MinWidth="126" MaxWidth="126" MaxHeight="126" Width="126" Margin="3,6,4,5" Height="126">
+                    <Ellipse.Fill>
+                        <ImageBrush ImageSource="/Assets/Images/DemoSchoolLogo.png" Stretch="Uniform"/>
+                    </Ellipse.Fill>
+                </Ellipse>
+            </Grid>
+            <Grid Grid.Column="1" Margin="0,10,4,5">
+                <Border Background="{DynamicResource WorkAreaBrush}" CornerRadius="20"/>
+                <TextBlock x:Name="SchlName" Foreground="{DynamicResource ResourceKey=Foreground}" MouseEnter="OnMouseHover" MouseLeave="OnMouseLeave" HorizontalAlignment="Left" Margin="10,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="29" Width="381" Text="Demo School" FontSize="16" FontFamily="Times New Roman"
+                    local:ObjectDescription.ElementString="This is your school's name."/>
+                <TextBlock x:Name="Affiliation" Foreground="{DynamicResource Foreground}" HorizontalAlignment="Left" MouseEnter="OnMouseHover" MouseLeave="OnMouseLeave" Margin="10,52,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="29" Width="381" Text="Affiliation" FontSize="14" FontFamily="Times New Roman"
+                    local:ObjectDescription.ElementString="This is your school's affiliation."/>
+                <TextBlock x:Name="SchoolContacT" Foreground="{DynamicResource Foreground}" HorizontalAlignment="Left" MouseEnter="OnMouseHover" MouseLeave="OnMouseLeave" Margin="10,86,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="381" Text="Contact:" FontFamily="Times New Roman"
+                    local:ObjectDescription.ElementString="This is your school's contact info."/>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>
