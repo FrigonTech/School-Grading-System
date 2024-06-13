@@ -49,7 +49,7 @@ namespace SchoolGradingSystem
                 }
                 else
                 {
-                    return ($"{Students.Count}/{TotalSeats}");
+                    return ($"{Students.Count}");
                 }
                 
             }

@@ -43,13 +43,27 @@
             <Button Click="reload_data_Click" x:Name="reload_data" Background="{DynamicResource WindowBrush}" Foreground="{DynamicResource Foreground}" Content="Reload 🔄️" Style="{DynamicResource ButtonStyle2}" Height="33" Width="74" HorizontalContentAlignment="Center" Margin="5,0,0,0"/>
         </StackPanel>
         <Grid Grid.Row="1" Grid.ColumnSpan="2">
-            <Border Background="{DynamicResource WorkAreaBrush}" BorderBrush="{DynamicResource ElementBar}" BorderThickness="4" CornerRadius="8" Margin="3,3,3,0">
-                <ScrollViewer Foreground="{DynamicResource Foreground}" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" Background="Transparent" CanContentScroll="True" VirtualizingPanel.ScrollUnit="Pixel">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="29*"/>
+                <RowDefinition Height="368*"/>
+            </Grid.RowDefinitions>
+            <Border x:Name="classborder" Background="{DynamicResource WorkAreaBrush}" BorderBrush="{DynamicResource ElementBar}" BorderThickness="4" CornerRadius="8" Margin="3,3,2,0" Grid.RowSpan="2">
+                <ScrollViewer Foreground="{DynamicResource Foreground}" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" Background="Transparent" CanContentScroll="True" VirtualizingPanel.ScrollUnit="Pixel" Margin="0,24,0,0">
                     <StackPanel x:Name="Classpanel" Orientation="Vertical" Margin="3">
                         <!-- Your dynamic UserControls will be added here -->
                     </StackPanel>
                 </ScrollViewer>
             </Border>
+            <Border x:Name="studentsborder" Background="{DynamicResource WorkAreaBrush}" BorderBrush="{DynamicResource ElementBar}" BorderThickness="4" CornerRadius="8" Margin="3,3,2,0" Grid.RowSpan="2" Visibility="Hidden">
+                <ScrollViewer Foreground="{DynamicResource Foreground}" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" Background="Transparent" CanContentScroll="True" VirtualizingPanel.ScrollUnit="Pixel" Margin="0,25,0,0">
+                    <StackPanel x:Name="StudentsPanel" Orientation="Vertical" Margin="3">
+                        <!-- Your dynamic UserControls will be added here -->
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+            <Grid Margin="8,8,0,0" HorizontalAlignment="Left" Width="32">
+                <Button x:Name="studentsback_back" Background="{DynamicResource WindowBrush}" Foreground="{DynamicResource Foreground}"  Style="{DynamicResource ButtonStyle2}" Click="studentsback_back_Click" Content="⬅️" VerticalContentAlignment="Top" FontSize="18" FontStretch="SemiExpanded" Visibility="Hidden"/>
+            </Grid>
         </Grid>
         <Border x:Name="AddClassBox"  Background="{DynamicResource WorkAreaBrush}" BorderBrush="{DynamicResource WindowBrush}" CornerRadius="8" BorderThickness="2" Margin="195,10,0,0" Grid.Row="1" Width="272" MaxWidth="272" MaxHeight="162" Height="162" VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Left" Visibility="Hidden">
             <Grid Margin="0,0,-2,-2" Focusable="True">
@@ -112,9 +126,51 @@
                 <Button Click="add_classes_ok_button_Click" x:Name="add_classes_ok_button" Background="{DynamicResource WindowBrush}" Foreground="{DynamicResource Foreground}" Content="Done" Style="{DynamicResource ButtonStyle2}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="22" Width="74" Grid.Row="2" Margin="98,44,0,0" Grid.ColumnSpan="2"/>
             </Grid>
         </Border>
-        <Grid Grid.Column="2" Grid.Row="1" Margin="0,4,6,0">
-            <Border Background="{DynamicResource WorkAreaBrush}" BorderBrush="{DynamicResource ElementBar}" BorderThickness="4" CornerRadius="8"/>
+        <Grid Grid.Column="2" Grid.Row="1" Margin="-2,4,2,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" MinHeight="100" MaxHeight="500"/>
+                <!-- Resizable Row with Limits -->
+                <RowDefinition Height="Auto" />
+                <!-- GridSplitter Row -->
+                <RowDefinition Height="*" MinHeight="100" MaxHeight="500"/>
+                <!-- Resizable Row with Limits -->
+            </Grid.RowDefinitions>
+
+            <!-- Properties Section -->
+            <Border Background="{DynamicResource WorkAreaBrush}" BorderBrush="{DynamicResource ElementBar}" BorderThickness="4" CornerRadius="8" Grid.Row="0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" MinHeight="20" />
+                        <RowDefinition Height="*" />
+                        <!-- Ensure the second row takes up available space -->
+                    </Grid.RowDefinitions>
+                    <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Properties" VerticalAlignment="Top" Foreground="{DynamicResource Foreground}" Height="16" Width="60" FontFamily="Bahnschrift SemiBold" Margin="0,6,0,0" Grid.Row="0"/>
+
+                    <!-- ScrollViewer to enable scrolling -->
+                    <ScrollViewer Margin="2,2,2,1" Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Background="Transparent" CanContentScroll="True" VirtualizingPanel.ScrollUnit="Pixel">
+                        <StackPanel>
+                            <TextBlock x:Name="properties" TextWrapping="Wrap" Foreground="{DynamicResource Foreground}" Width="196"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+
+            <!-- GridSplitter -->
+            <GridSplitter Grid.Row="1" Height="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{DynamicResource ElementBar}" ResizeDirection="Rows" />
+
+            <!-- Actions Section -->
+            <Border Background="{DynamicResource WorkAreaBrush}" BorderBrush="{DynamicResource ElementBar}" BorderThickness="4" CornerRadius="8" Grid.Row="2">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Actions" VerticalAlignment="Top" Foreground="{DynamicResource Foreground}" Height="15" Width="40" Margin="0,5,0,0" FontFamily="Bahnschrift SemiBold"/>
+                </Grid>
+            </Border>
         </Grid>
+
+        <GridSplitter BorderThickness="3" BorderBrush="{DynamicResource ElementBar}" HorizontalAlignment="Left" Margin="-5,10,0,4" Grid.Column="2" Grid.Row="2"/>
 
     </Grid>
 </Page>

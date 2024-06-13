@@ -105,7 +105,7 @@
             </Grid.ColumnDefinitions>
             <Grid MaxWidth="136" MaxHeight="136" Margin="0,1,0,0">
                 <Border Background="{DynamicResource WorkAreaBrush}" CornerRadius="100" Margin="-14,-14,-14,-14"/>
-                <Ellipse x:Name="Logo" Stroke="Black" MinWidth="126" MaxWidth="126" MaxHeight="126" Width="126" Margin="3,6,4,5" Height="126">
+                <Ellipse StrokeThickness="0" x:Name="Logo" Stroke="Black" MinWidth="126" MaxWidth="126" MaxHeight="126" Width="126" Margin="3,6,4,5" Height="126">
                     <Ellipse.Fill>
                         <ImageBrush ImageSource="/Assets/Images/DemoSchoolLogo.png" Stretch="Uniform"/>
                     </Ellipse.Fill>

@@ -19,23 +19,22 @@ namespace SchoolGradingSystem
     /// <summary>
     /// Interaction logic for School_Class_List_usercontrol.xaml
     /// </summary>
-    public partial class School_Class_List_usercontrol : UserControl
+    public partial class School_Student_List_usercontrol : UserControl
     {
         private static string folderpath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "FT_SGS", "Classes");
         public int ClassIndexinLoadedList = 0;
         public string ClassFilePath { get; set; }
         public event EventHandler<UserControl> RemoveRequested;
         public event EventHandler<UserControl> ShowProperties;
-        public event EventHandler<UserControl> ShowStudents;
         public page_manageclasses ParentPage { get; set; }
-        public School_Class_List_usercontrol()
+        public School_Student_List_usercontrol()
         {
             InitializeComponent();
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Deleted class *_domain.json files cannot be recovered once deleted. Do you still want to delete them?", "SGS Warning", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            MessageBoxResult result = MessageBox.Show("Deleted student_info from the class *_domain.json file cannot be recovered once deleted. Do you still want to delete it?", "SGS Warning", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
                 deleteClass();
@@ -43,14 +42,6 @@ namespace SchoolGradingSystem
             else if (result == MessageBoxResult.No)
             {
                 
-            }
-        }
-
-        private void CLassSlect_Click(object sender, RoutedEventArgs e)
-        {
-            if (ParentPage != null)
-            {
-                ShowProperties?.Invoke(this, this);
             }
         }
 
@@ -63,16 +54,12 @@ namespace SchoolGradingSystem
                 RemoveRequested?.Invoke(this, this); // Pass the UserControl instance
                 // Delete the PNG file
                 File.Delete(ClassFilePath);
-            }
-            
+            }            
         }
 
-        private void ClassButton_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void studentbuttonselector_Click(object sender, RoutedEventArgs e)
         {
-            if (ParentPage != null)
-            {
-                ShowStudents?.Invoke(this, this);
-            }
+            ShowProperties?.Invoke(this, this);
         }
     }
 }

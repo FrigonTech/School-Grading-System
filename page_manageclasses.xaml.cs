@@ -25,6 +25,7 @@ namespace SchoolGradingSystem
     {
         private static string folderpath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "FT_SGS", "Classes");
         public List<SchoolClass> allLoadedClasses = new List<SchoolClass>();
+        int currentclassindex = -1;
 
 
         public page_manageclasses()
@@ -53,21 +54,7 @@ namespace SchoolGradingSystem
                     if (!allLoadedClasses.Any(existingClass => existingClass.sClass == loadedClass.sClass && existingClass.ClassSection == loadedClass.ClassSection))
                     {
                         allLoadedClasses.Add(loadedClass);
-                        // Create an instance of your user control
-                        var myUserControl = new School_Class_List_usercontrol();
-                        //edit its properties
-                        myUserControl.ClassIndexinLoadedList = allLoadedClasses.IndexOf(loadedClass);
-                        myUserControl.ParentPage = this;
-                        myUserControl.ClassFilePath = filePath;
-                        myUserControl.Class.Text = loadedClass.sClass.ToString();
-                        myUserControl.ClassSectionn.Text = loadedClass.ClassSection.ToString();
-                        myUserControl.OccupiedSeatss.Text = loadedClass.OccupiedSeats.ToString();
-                        myUserControl.Total_Seatss.Text = loadedClass.TotalSeats.ToString();
-                        myUserControl.Width = 800;
-                        myUserControl.Height = 41;
-                        myUserControl.RemoveRequested += UserControl_RemoveRequested;
-                        // Add it to the StackPanel
-                        this.Classpanel.Children.Add(myUserControl);
+                        LoadClassUserCOntrol(filePath);
                     }
                 }
             }
@@ -75,6 +62,64 @@ namespace SchoolGradingSystem
             {
                 // Handle any exceptions (e.g., display an error message)
                 Console.WriteLine($"Error reading JSON files: {ex.Message}");
+            }
+        }
+
+        private void LoadClassUserCOntrol(string filepath)
+        {
+            foreach (SchoolClass loadedClass in allLoadedClasses)
+            {
+                // Create an instance of your user control
+                var myUserControl = new School_Class_List_usercontrol();
+                //edit its properties
+                myUserControl.ClassIndexinLoadedList = allLoadedClasses.IndexOf(loadedClass);
+                myUserControl.ParentPage = this;
+                myUserControl.ClassFilePath = filepath;
+                myUserControl.Class.Text = loadedClass.sClass.ToString();
+                myUserControl.ClassSectionn.Text = loadedClass.ClassSection.ToString();
+                myUserControl.OccupiedSeatss.Text = loadedClass.OccupiedSeats.ToString();
+                myUserControl.Total_Seatss.Text = loadedClass.TotalSeats.ToString();
+                //myUserControl.Width = 800;
+                //myUserControl.Height = 41;
+                myUserControl.RemoveRequested += UserControl_RemoveRequested;
+                myUserControl.ShowProperties += UserControl_ShowPorperties;
+                myUserControl.ShowStudents += UserControl_ShowStudents;
+                // Add it to the StackPanel
+                this.Classpanel.Children.Add(myUserControl);
+            }
+        }
+
+        private void LoadStudentsUserControl(int ClassIndex)
+        {
+            if(currentclassindex == ClassIndex)
+            {
+                            
+            }
+            else
+            {
+                currentclassindex = ClassIndex;
+                this.StudentsPanel.Children.Clear();
+                foreach (School_StudentInfo student in allLoadedClasses[ClassIndex].Students)
+                {
+                    //Create an instance of your user control
+                    var mystudentscontrol = new School_Student_List_usercontrol();
+                    mystudentscontrol.StudentNAMEE.Text = student.studentName;
+                    this.StudentsPanel.Children.Add(mystudentscontrol);
+                    mystudentscontrol.ShowProperties += StudentControl_ShowPorperties;
+                }
+            }            
+        }
+
+        private void StudentControl_ShowPorperties(object sender, UserControl e)
+        {
+            if(sender is School_Student_List_usercontrol studentcontrol)
+            {
+                foreach(School_StudentInfo student in allLoadedClasses[studentcontrol.ClassIndexinLoadedList].Students)
+                {
+                    string Property = ($"Name: {student.studentName}\n\nRoll No.:{student.studentRollno}\n\nAdmission No.:{student.studentAdmissionno}\n\nAddress:{student.studentAddress}\n\n" +
+                        $"Date of Birth: {student.studentDOB}\n\nJoining Date: {student.studentJoiningfrom}");
+                    this.properties.Text = Property;
+                }
             }
         }
 
@@ -86,11 +131,51 @@ namespace SchoolGradingSystem
                 // Get the ClassIndex from the userControl
                 int classIndex = userControl.ClassIndexinLoadedList;
                 allLoadedClasses.RemoveAt( classIndex );
-                this.Classpanel.Children.Remove(userControl);
-                
+                this.Classpanel.Children.Remove(userControl);                
             }
         }
 
+        private void UserControl_ShowStudents(object sender, UserControl e)
+        {
+            if (sender is School_Class_List_usercontrol usercontrol)
+            {
+                //Manage Focusable
+                this.Classpanel.Focusable = false;
+                this.StudentsPanel.Focusable = true;
+                this.studentsborder.Focusable = true;
+                this.studentsback_back.Focusable= true;
+
+                //Manage HitTestable
+                this.Classpanel.IsHitTestVisible = false;
+                this.StudentsPanel.IsHitTestVisible = true;
+                this.studentsborder.IsHitTestVisible = true;
+                this.studentsback_back.IsHitTestVisible = true;
+
+                //Manage Visibility
+                this.Classpanel.Visibility = Visibility.Hidden;
+                this.StudentsPanel.Visibility = Visibility.Visible;
+                this.studentsborder.Visibility = Visibility.Visible;
+                this.studentsback_back.Visibility = Visibility.Visible;
+
+                LoadStudentsUserControl(usercontrol.ClassIndexinLoadedList);
+            }
+        }
+
+        private void UserControl_ShowPorperties(object sender, UserControl e)
+        {
+            // Remove the specific UserControl instance from the parent container
+            if (sender is School_Class_List_usercontrol userControl)
+            {
+                //Get Properties from class
+                
+                string Property = ($"Class: {userControl.Class.Text}{userControl.ClassSectionn.Text} \nStudents: {userControl.OccupiedSeatss.Text}/{userControl.Total_Seatss.Text}\n\n---Students:---\n");
+                foreach(School_StudentInfo studentInfo in allLoadedClasses[userControl.ClassIndexinLoadedList].Students)
+                {
+                    Property += ($"{studentInfo.studentName}\n");
+                }
+                this.properties.Text = Property;
+            }
+        }
 
         private void SearchBar_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -268,6 +353,27 @@ namespace SchoolGradingSystem
         private void reload_data_Click(object sender, RoutedEventArgs e)
         {
             LoadAllClassesFromFolder(folderpath);
+        }
+
+        private void studentsback_back_Click(object sender, RoutedEventArgs e)
+        {
+            //Manage Focusable
+            this.Classpanel.Focusable = true;
+            this.StudentsPanel.Focusable = false;
+            this.studentsborder.Focusable = false;
+            this.studentsback_back.Focusable = false;
+
+            //Manage HitTestable
+            this.Classpanel.IsHitTestVisible = true;
+            this.StudentsPanel.IsHitTestVisible = false;
+            this.studentsborder.IsHitTestVisible = false;
+            this.studentsback_back.IsHitTestVisible = false;
+
+            //Manage Visibility
+            this.Classpanel.Visibility = Visibility.Visible;
+            this.StudentsPanel.Visibility = Visibility.Hidden;
+            this.studentsborder.Visibility = Visibility.Hidden;
+            this.studentsback_back.Visibility = Visibility.Hidden;
         }
     }
 }
