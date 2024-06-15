@@ -20,12 +20,13 @@ using System.Windows.Threading;
 using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
 using Newtonsoft.Json.Bson;
+using System.Windows.Media.Animation;
 
 namespace SchoolGradingSystem
 {
     /// <summary>
     /// Interaction logic for page_schoolregistry.xaml
-    /// </summary>
+    /// </summary>    
     public partial class page_mainmenu : Page, INotifyPropertyChanged
     {
         private string _currentDateTime;
@@ -38,6 +39,8 @@ namespace SchoolGradingSystem
         public static string schoolPRINCI;
         public static string schoolregisterdate;
         public static string schoolAFFNUM;
+        bool Isalreadyscheduling;
+        DateTime selectedDate;
 
         private bool SchoolInfoFileExists()
         {
@@ -86,6 +89,98 @@ namespace SchoolGradingSystem
         private void UpdateDateTime()
         {
             CurrentDateTime = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+        }
+
+        private void addSchedule(object sender, RoutedEventArgs e)
+        {
+            if (!Isalreadyscheduling) 
+            {
+                Isalreadyscheduling = true;
+                //prompt a calender//
+                // // Animate the calender//
+                // // // Add Background Blur Anim
+                // Create the height animation//
+                DoubleAnimation heightAnimation = new DoubleAnimation
+                {
+                    To = 24,
+                    Duration = new Duration(TimeSpan.FromSeconds(0.3)) // Set the duration of the animation
+                };
+                this.scheduledatepicker.BeginAnimation(HeightProperty, heightAnimation);
+                this.AddScheduleButton.Content = "Esc";
+            }
+            else
+            {
+                Isalreadyscheduling = false;
+                //prompt a calender//
+                // // Animate the calender//
+                // // // Add Background Blur Anim
+                // Create the height animation//
+                DoubleAnimation heightAnimation = new DoubleAnimation
+                {
+                    To = 0,
+                    Duration = new Duration(TimeSpan.FromSeconds(0.1)) // Set the duration of the animation
+                };
+                this.scheduledatepicker.BeginAnimation(HeightProperty, heightAnimation);
+                this.AddScheduleButton.Content = "+";
+            }
+        }
+
+        private void SchedulesCalendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // Ensure sender is Calendar
+            if (sender is DatePicker calendar)
+            {
+                // Check if a date is selected
+                if (calendar.SelectedDate.HasValue)
+                {
+                    DateTimeOffset currentDate = DateTimeOffset.Now;
+                    selectedDate = calendar.SelectedDate.Value;
+                    double differenceInDays = Math.Ceiling((selectedDate - currentDate).TotalDays);
+                    if (differenceInDays <= 0) 
+                    {
+                        EndSchedulingProcess(selectedDate, false);
+                    }
+                    else
+                    {
+                        EndSchedulingProcess(selectedDate, true);
+                    }
+                }
+            }
+        }
+
+        private void EndSchedulingProcess(DateTimeOffset date, bool sucess)
+        {
+            if (sucess)
+            {
+                //add a new schedule U.C.
+                var MySchedule = new SchoolGradingSystem.scheduled_date_element
+                {
+                    S_Date = date,
+                    Width = 289
+                };
+                MySchedule.Init_Day_Text();
+                this.schedulespanel.Children.Add(MySchedule);
+                DoubleAnimation heightAnimation = new DoubleAnimation
+                {
+                    To = 0,
+                    Duration = new Duration(TimeSpan.FromSeconds(0.1)) // Set the duration of the animation
+                };
+                this.scheduledatepicker.BeginAnimation(HeightProperty, heightAnimation);
+                Isalreadyscheduling = false;
+                this.AddScheduleButton.Content = "+";
+            }
+            else
+            {
+                MessageBox.Show("Request Unavailable", "Date Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                DoubleAnimation heightAnimation = new DoubleAnimation
+                {
+                    To = 0,
+                    Duration = new Duration(TimeSpan.FromSeconds(0.1)) // Set the duration of the animation
+                };
+                this.scheduledatepicker.BeginAnimation(HeightProperty, heightAnimation);
+                Isalreadyscheduling = false;
+                this.AddScheduleButton.Content = "+";
+            }            
         }
 
         protected virtual void OnPropertyChanged(string propertyName)
@@ -210,5 +305,39 @@ namespace SchoolGradingSystem
                 //Add logic to update alttextbox beneath mouse
             }
         }
+
+        private void ReloadScheduleButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Get all child elements (schedules) in the StackPanel
+            List<scheduled_date_element> schedules = new List<scheduled_date_element>();
+            foreach (var child in schedulespanel.Children)
+            {
+                if (child is scheduled_date_element schedule)
+                {
+                    schedules.Add(schedule);
+                }
+            }
+
+            // Sort schedules by differenceInDays in ascending order
+            schedules.Sort((s1, s2) =>
+            {
+                // Calculate differenceInDays for each schedule
+                double differenceInDays1 = (s1.S_Date.Value - DateTimeOffset.Now).TotalDays;
+                double differenceInDays2 = (s2.S_Date.Value - DateTimeOffset.Now).TotalDays;
+
+                // Compare based on differenceInDays (ascending order)
+                return differenceInDays1.CompareTo(differenceInDays2);
+            });
+
+            // Clear current children in StackPanel
+            schedulespanel.Children.Clear();
+
+            // Re-add schedules in sorted order
+            foreach (var schedule in schedules)
+            {
+                schedulespanel.Children.Add(schedule);
+            }
+        }
     }
+    
 }

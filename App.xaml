@@ -3,9 +3,30 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:SchoolGradingSystem"
              StartupUri="MainWindow.xaml">
-    
+
     <Application.Resources>
         <ResourceDictionary>
+            <!-- Define a LinearGradientBrush -->
+            <LinearGradientBrush x:Key="GreenG" StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Offset="0" Color="#2FFF00" />
+                <GradientStop Offset="0.5" Color="#73E559" />
+                <GradientStop Offset="1" Color="#3C3C3C" />
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="YellowG" StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Offset="0" Color="#C8D000" />
+                <GradientStop Offset="0.5" Color="#DFDF5E" />
+                <GradientStop Offset="1" Color="#3C3C3C" />
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="RedG" StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Offset="0" Color="#FF4242" />
+                <GradientStop Offset="0.5" Color="#FF5A5A" />
+                <GradientStop Offset="1" Color="#3C3C3C" />
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="WhiteG" StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Offset="0" Color="#DCDCDC" />
+                <GradientStop Offset="0.5" Color="#97999A" />
+                <GradientStop Offset="1" Color="#000000" />
+            </LinearGradientBrush>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Themes/DarkTheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
