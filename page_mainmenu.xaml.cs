@@ -102,7 +102,7 @@ namespace SchoolGradingSystem
                 // Create the height animation//
                 DoubleAnimation heightAnimation = new DoubleAnimation
                 {
-                    To = 24,
+                    To = 25,
                     Duration = new Duration(TimeSpan.FromSeconds(0.3)) // Set the duration of the animation
                 };
                 this.scheduledatepicker.BeginAnimation(HeightProperty, heightAnimation);
@@ -275,6 +275,15 @@ namespace SchoolGradingSystem
                 mainWindow.UpdateTitle("Student Registration");
             }
             NavigationService.Navigate(new page_registerstudent());
+        }
+
+        private void FacultyRegisterButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (Application.Current.MainWindow is MainWindow mainWindow)
+            {
+                mainWindow.UpdateTitle("Faculty Registration");
+            }
+            NavigationService.Navigate(new page_registerfaculty());
         }
 
         private void SchoolRegistration_Click(object sender, RoutedEventArgs e)

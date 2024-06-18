@@ -51,7 +51,7 @@
                             local:ObjectDescription.ElementString="Go to this page for registering any new commers into a class very easily."
                             Style="{DynamicResource ButtonStyle2}"/>
 
-                    <Button Content="Register Faculty ➕" Background="{DynamicResource WindowBrush}" Foreground="{DynamicResource Foreground}" Width="289" ScrollViewer.HorizontalScrollBarVisibility="Visible" MouseEnter="OnMouseHover" MouseLeave="OnMouseLeave" HorizontalContentAlignment="Center" Height="40" FontFamily="Times New Roman" FontSize="16" FontWeight="Bold" Margin="0,8,0,0"
+                    <Button Content="Register Faculty ➕" Click="FacultyRegisterButton_Click" Background="{DynamicResource WindowBrush}" Foreground="{DynamicResource Foreground}" Width="289" ScrollViewer.HorizontalScrollBarVisibility="Visible" MouseEnter="OnMouseHover" MouseLeave="OnMouseLeave" HorizontalContentAlignment="Center" Height="40" FontFamily="Times New Roman" FontSize="16" FontWeight="Bold" Margin="0,8,0,0"
                             local:ObjectDescription.ElementString="Register any new faculty member in the school with his/her monthly salary and other required or optional information."
                             Style="{DynamicResource ButtonStyle2}"/>
 
@@ -112,7 +112,7 @@
                     <ScrollViewer HorizontalContentAlignment="Left">
                         <StackPanel VerticalAlignment="Top" x:Name="schedulespanel" Height="325" Width="338" Margin="-18,0,0,0"/>
                     </ScrollViewer>
-                    <DatePicker x:Name="scheduledatepicker" SelectedDateChanged="SchedulesCalendar_SelectedDatesChanged" Margin="0,-54,0,269" RenderTransformOrigin="0.5,0" Height="0"/>
+                    <DatePicker x:Name="scheduledatepicker" SelectedDateChanged="SchedulesCalendar_SelectedDatesChanged" RenderTransformOrigin="0.5,0" Height="0"/>
                 </Grid>
             </Grid>
         </Grid>

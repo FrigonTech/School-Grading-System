@@ -15,21 +15,20 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using static System.Collections.Specialized.BitVector32;
 
 namespace SchoolGradingSystem
 {
     /// <summary>
-    /// Interaction logic for page_registerstudent.xaml
+    /// Interaction logic for page_registerfaculty.xaml
     /// </summary>
-    public partial class page_registerstudent : Page
+    public partial class page_registerfaculty : Page
     {
         public int classindex;
-        public int studentindex;
+        public int facultyindex;
         public List<SchoolClass> allLoadedClasses = new List<SchoolClass>();
         private static string folderpath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "FT_SGS", "Classes");
-        private static string listpath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "FT_SGS", "Students");
-        public page_registerstudent()
+        private static string listpath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "FT_SGS", "Teachers");
+        public page_registerfaculty()
         {
             InitializeComponent();
             LoadAllClassesFromFolder(folderpath);
@@ -100,7 +99,7 @@ namespace SchoolGradingSystem
 
                 // Determine the destination directory and file path
                 string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                string directoryPath = System.IO.Path.Combine(documentsPath, "FT_SGS", "StudentImages");
+                string directoryPath = System.IO.Path.Combine(documentsPath, "FT_SGS", "facultyImages");
                 Directory.CreateDirectory(directoryPath); // Ensure the directory exists
 
                 // Determine the destination file path
@@ -168,26 +167,25 @@ namespace SchoolGradingSystem
 
         private void SaveProfile_Click(object sender, RoutedEventArgs e)
         {
-            //Check all conditions for saving a student's profile!!
+            //Check all conditions for saving a faculty's profile!!
             if (stuname.Text == "" || stuname.Text == null || classSectionComboBox.SelectedItem == null || dob.SelectedDate == null || joiningdate.SelectedDate == null)
             {
-                MessageBox.Show("Student name, class, section, joining date and date of birth are necessary for registrering a student in a class.", "⚠️ Required Field Null", MessageBoxButton.OK, MessageBoxImage.Stop);
+                MessageBox.Show("faculty name, class, section, joining date and date of birth are necessary for registrering a faculty in a class.", "⚠️ Required Field Null", MessageBoxButton.OK, MessageBoxImage.Stop);
             }
             else
             {
                 string[] SelectedClassAndSection = classSectionComboBox.SelectedItem.ToString().Split(' ');
                 int.TryParse(stuadmissionno.Text, out int stuadmissionnumber);
-                int.TryParse(sturollno.Text, out int sturollnumber);
-                School_StudentInfo newStudent = new School_StudentInfo()
+                School_FacultyInfo newfaculty = new School_FacultyInfo()
                 {
-                    studentName = stuname.Text,
-                    studentPic = stuimage.Source.ToString(),//Substring(8, stuimage.Source.ToString().Length - 8
-                    studentAddress = stuaddress.Text,
-                    studentClass = $"{SelectedClassAndSection[1].Trim()} {SelectedClassAndSection[2].Trim()}",
-                    studentAdmissionno = stuadmissionnumber,
-                    studentRollno = sturollnumber,
-                    studentDOB = dob.SelectedDate,
-                    studentJoiningfrom = joiningdate.SelectedDate,
+                    facultyName = stuname.Text,
+                    facultyPic = stuimage.Source.ToString(),//Substring(8, stuimage.Source.ToString().Length - 8
+                    facultyAddress = stuaddress.Text,
+                    facultyClass = $"{SelectedClassAndSection[1].Trim()} {SelectedClassAndSection[2].Trim()}",
+                    facultyAdmissionno = stuadmissionnumber,
+                    facultyDOB = dob.SelectedDate,
+                    facultyJoiningfrom = joiningdate.SelectedDate,
+                    Subject = faculty_Subject.Text
                 };
 
                 // Check if the class and section already exist in the list
@@ -203,26 +201,19 @@ namespace SchoolGradingSystem
                     if (index != -1)
                     {
                         int.TryParse(SelectedClassAndSection[1].Trim(), out int Classs);
-                        if (allLoadedClasses[index].Students == null)
-                        {
-                            allLoadedClasses[index].Students = new List<School_StudentInfo> {newStudent};
-                        }
-                        else
-                        {
-                            allLoadedClasses[index].Students.Add(newStudent);
-                        }                        
-                        SaveNewClass(allLoadedClasses[index], Classs, SelectedClassAndSection[2].Trim());
-                        SaveStudentlistingInfo(newStudent);
+                        allLoadedClasses[classindex].Teacher = newfaculty;
+                        SaveNewClass(allLoadedClasses[index], Classs, SelectedClassAndSection[2].Trim(), newfaculty);
                     }
                     else
                     {
-                        Console.WriteLine("Class and section not found.");
+                        //save teacher to unallocated
+                        SaveNewTeacher(newfaculty);
                     }
                 }
             }            
         }
 
-        private void SaveNewClass(SchoolClass newclassinfo, int currentclass, string section)
+        private void SaveNewClass(SchoolClass newclassinfo, int currentclass, string section, School_FacultyInfo teacherinfo)
         {
 
             // Serialize the struct to JSON
@@ -231,15 +222,24 @@ namespace SchoolGradingSystem
             try
             {
                 // Define the file path
-                string filePath = System.IO.Path.Combine(folderpath, $"{currentclass}_{section}_domain_info.json");
+                string filePath = System.IO.Path.Combine(folderpath, "Teachers_no_class_room_Assigned", $"{teacherinfo.Subject}_{teacherinfo.facultyName}_subdomain_info.json");
+
+                // Define the file path
+                string listjsonPath = System.IO.Path.Combine(listpath, $"{teacherinfo.facultyName}_subdomain_info.json");
 
                 if (!File.Exists(folderpath))
                 {
                     Directory.CreateDirectory(folderpath);
                 }
 
+                if (!File.Exists(listpath))
+                {
+                    Directory.CreateDirectory(listpath);
+                }
+
                 // Save the JSON string to the file
                 File.WriteAllText(filePath, jsonString);
+                File.WriteAllText(listjsonPath, jsonString);
                 LoadAllClassesFromFolder(folderpath);
                 InitializeComponent();
             }
@@ -249,29 +249,39 @@ namespace SchoolGradingSystem
             }
         }
 
-        private void SaveStudentlistingInfo(School_StudentInfo Student)
+        private void SaveNewTeacher(School_FacultyInfo teacherinfo)
         {
+
             // Serialize the struct to JSON
-            string jsonString = JsonConvert.SerializeObject(Student);
+            string jsonString = JsonConvert.SerializeObject(teacherinfo);
 
             try
             {
                 // Define the file path
-                string filePath = System.IO.Path.Combine(listpath, $"{Student.studentName}_subdomain_info.json");
+                string filePath = System.IO.Path.Combine(folderpath, "Teachers_no_class_room_Assigned", $"{teacherinfo.Subject}_{teacherinfo.facultyName}_subdomain_info.json");
+
+                // Define the file path
+                string listjsonPath = System.IO.Path.Combine(listpath, $"{teacherinfo.facultyName}_subdomain_info.json");
 
                 if (!File.Exists(folderpath))
                 {
                     Directory.CreateDirectory(folderpath);
                 }
 
+                if (!File.Exists(listpath))
+                {
+                    Directory.CreateDirectory(listpath);
+                }
+
                 // Save the JSON string to the file
                 File.WriteAllText(filePath, jsonString);
+                File.WriteAllText(listjsonPath, jsonString);
                 LoadAllClassesFromFolder(folderpath);
                 InitializeComponent();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error saving 'Class' info: {ex.Message}", "Configuration", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show($"Error saving 'Teacher' info: {ex.Message}", "Configuration", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
     }

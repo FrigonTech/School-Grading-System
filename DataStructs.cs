@@ -20,6 +20,18 @@ namespace SchoolGradingSystem
         public string studentPic;
     }
 
+    public struct School_FacultyInfo
+    {
+        public string facultyName;
+        public string facultyClass;
+        public int facultyAdmissionno;
+        public string facultyAddress;
+        public DateTimeOffset? facultyJoiningfrom;
+        public DateTimeOffset? facultyDOB;
+        public string facultyPic;
+        public string Subject;
+    }
+
     public class SchoolInfo
     {
         public string schoolName { get; set; }
@@ -55,6 +67,7 @@ namespace SchoolGradingSystem
             }
         }
         public List<School_StudentInfo> Students { get; set; }
+        public School_FacultyInfo Teacher { get; set; }
     }
 
 }
